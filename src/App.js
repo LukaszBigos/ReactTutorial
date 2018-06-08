@@ -5,32 +5,29 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     teams: [
-      { name: 'Messi', team:'Barca'},
-      { name: 'Lewy', team:'Bayern'},
-      { name: 'Salah', team:'Liverpool'}
+      { id: '123312', name: 'Messi', team:'Barca'},
+      { id: '123311232', name: 'Lewy', team:'Bayern'},
+      { id: '123312131223', name: 'Salah', team:'Liverpool'}
     ],
     showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-    // console.log('Click działa');
-    this.setState({
-      teams: [
-        { name: newName, team:'Barca'},
-        { name: 'Salah', team:'Bayern'},
-        { name: 'Messi', team:'FC Pasionki'}
-      ],
-    })
-  }
 
   nameChangedHandler = (event) => {
     this.setState({
       teams: [
-        { name: 'Messi', team:'Barca'},
-        { name: event.target.value, team:'Bayern'},
-        { name: 'Lewy', team:'FC Pasionki'}
+        {  name: 'Messi', team:'Barca'},
+        {  name: event.target.value, team:'Bayern'},
+        {  name: 'Lewy', team:'FC Pasionki'}
       ]
     })
+  }
+
+  deleteTeamHandler = (personIndex) => {
+    // const teams = this.state.teams.slice();
+    const teams = [...this.state.teams];
+    teams.splice(personIndex, 1);
+    this.setState({teams: teams});
   }
 
   togglePersonHandler = () => {
@@ -53,10 +50,12 @@ class App extends Component {
     if(this.state.showPersons) {
       teams = (
         <div>
-          {this.state.teams.map(team => {
-            return <Person 
+          {this.state.teams.map((team, index) => {
+            return <Person
+            click={() => this.deleteTeamHandler(index)}
             name={team.name}
-            team={team.team} />
+            team={team.team} 
+            key={team.id} />
           })}
           </div>
       );
